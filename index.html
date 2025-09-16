@@ -1,0 +1,153 @@
+DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Chuteiras (Simulada)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 10px;
+        }
+        .image-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+        .image-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .image-card p {
+            padding: 15px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Minha Galeria de Chuteiras</h1>
+    <button id="loadImagesBtn">Carregar Imagens de Chuteiras</button>
+    <div id="gallery">
+        <!-- As imagens serão carregadas aqui -->
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const loadImagesBtn = document.getElementById('loadImagesBtn');
+    const gallery = document.getElementById('gallery');
+
+    // Array de URLs de imagens de chuteiras
+    const chuteiraImages = [
+        {
+            id: '1',
+            url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira vermelha e preta em destaque.'
+        },
+        {
+            id: '2',
+            url: 'https://images.unsplash.com/photo-1606013444648-527e025951d3?q=80&w=1978&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira branca e azul, pronta para o jogo.'
+        },
+        {
+            id: '3',
+            url: 'https://images.unsplash.com/photo-1579603099952-6a7f9202537f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira moderna com detalhes coloridos.'
+        },
+        {
+            id: '4',
+            url: 'https://images.unsplash.com/photo-1511886988691-d85c13155702?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Um par de chuteiras clássicas em campo.'
+        },
+        {
+            id: '5',
+            url: 'https://images.unsplash.com/photo-1599547518544-d84381537233?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira preta e dourada com design arrojado.'
+        },
+        {
+            id: '6',
+            url: 'https://images.unsplash.com/photo-1552667104-d50d03b708d7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira azul vibrante com detalhes em branco.'
+        },
+        {
+            id: '7',
+            url: 'https://images.unsplash.com/photo-1623916960170-1f912239d24c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            description: 'Chuteira moderna com travas de alta performance.'
+        },
+        {
+            id: '8',
+            url: 'https://images.unsplash.com/photo-1579603099952-6a7f9202537f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Reutilizando uma imagem para exemplo
+            description: 'Mais uma chuteira estilosa para a coleção.'
+        },
+        {
+            id: '9',
+            url: 'https://images.unsplash.com/photo-1511886988691-d85c13155702?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Reutilizando uma imagem para exemplo
+            description: 'Um clássico que nunca sai de moda.'
+        }
+    ];
+
+    loadImagesBtn.addEventListener('click', () => {
+        // Limpa a galeria antes de carregar novas imagens (se já houver)
+        gallery.innerHTML = '';
+
+        chuteiraImages.forEach(image => {
+            const imageCard = document.createElement('div');
+            imageCard.classList.add('image-card');
+
+            const imgElement = document.createElement('img');
+            imgElement.src = image.url;
+            imgElement.alt = image.description;
+
+            const descriptionElement = document.createElement('p');
+            descriptionElement.textContent = image.description;
+
+            imageCard.appendChild(imgElement);
+            imageCard.appendChild(descriptionElement);
+            gallery.appendChild(imageCard);
+        });
+    });
+});
+                   </script>
+      </body>
+     </html>
